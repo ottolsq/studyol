@@ -4,11 +4,17 @@ import { router } from '@kit.ArkUI';
 @Component
 struct Course {
   @State message: string = 'Hello World';
+  @State courseId: string = '';
 
   aboutToAppear(){
     console.log('testTag: Course aboutToAppear')
     // 获取课程信息
-
+    const params = router.getParams() as Record<string, string>
+    if (params && params['id']) {
+      this.courseId = params['id']
+      // 可根据ID发起数据请求等操作
+      console.log('testTag: Course aboutToAppear courseId:', this.courseId)
+    }
 
   }
 

@@ -1,4 +1,3 @@
-
 import { router } from '@kit.ArkUI'
 import HomeTabContent from '../views/HomeTabContent'
 import AllThingsTabContent from '../views/AllThingsTabContent'
@@ -62,13 +61,15 @@ struct MainPage {
         this.BottomNavigation()
       } else {
 
+        // 显示内容
         this.getCurrentTabContent()
+        // 底部导航
         this.BottomNavigation()
       }
     }
     .width('100%')
     .height('100%')
-    .backgroundColor(Color.White)
+    // .backgroundColor(Color.White)
 
   }
 
@@ -132,7 +133,7 @@ struct MainPage {
     }
     .width('100%')
     .padding(8)
-    .backgroundColor(Color.Pink)
+    .backgroundColor("#CAD5E2")
   }
 
 

@@ -8,11 +8,14 @@ export default struct StudyTabContent {
 
   build() {
     Column() {
+
+
       Text('学习')
         .fontSize(20)
+        .lineHeight(20)
         .fontColor('#000')
         .textAlign(TextAlign.Center)
-        .margin({ top: 16 })
+        .margin({ top: 3, bottom: 3 })
 
       // Row() {
       //   Text('运动健康')

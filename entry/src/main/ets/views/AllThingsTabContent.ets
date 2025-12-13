@@ -10,9 +10,10 @@ export default struct AllThingsTabContent {
     Column() {
       Text('全部')
         .fontSize(20)
+        .lineHeight(20)
         .fontColor('#000')
         .textAlign(TextAlign.Center)
-        .margin({ top: 16 })
+        .margin({ top: 3, bottom: 3 })
     }
     .width('100%')
     .height('100%')
