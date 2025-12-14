@@ -1,63 +1,37 @@
 import { router } from "@kit.ArkUI"
 import { CourseModel } from "../viewmodel/CourseModel"
+import { TabItem } from "../viewmodel/NewsData"
+import {CourseListData} from "../Data/Data"
+import AllThingsTabContent from "./AllThingsTabContent"
+import preferences from "@ohos.data.preferences"
 
 // HomeTabContent.ets
 @Component
 export default struct HomeTabContent {
 
   private swiperController: SwiperController = new SwiperController()  // 声明控制器
+  private CourseList: CourseModel[] = [];
+  private RecomCourses: CourseModel[] = [];
 
-  private CourseList: Array<CourseModel> = [
-    {
-      id: "1",
-      name: "阿爸水电费阿斯顿发的",
-      teacher: "张三",
-      school: "广软",
-      type: "math",
-      introduction: "这里是简介12312312312阿斯顿法师打发斯蒂芬",
-      image: $r('app.media.th'),
-
-    },
-    {
-      id: "2",
-      name: "阿爸水电费阿斯顿发的",
-      teacher: "张三",
-      school: "广软",
-      type: "math",
-      introduction: "这里是简介12312312312阿斯顿法师打发斯蒂芬",
-      image: $r('app.media.th1'),
-
-    },
-    {
-      id: "3",
-      name: "阿爸水电费阿斯顿发的",
-      teacher: "张三",
-      school: "广软",
-      type: "math",
-      introduction: "这里是简介12312312312阿斯顿法师打发斯蒂芬",
-      image: $r('app.media.th2'),
-
-    },
-    {
-      id: "4",
-      name: "阿爸水电费阿斯顿发的",
-      teacher: "张三",
-      school: "广软",
-      type: "math",
-      introduction: "这里是简介12312312312阿斯顿法师打发斯蒂芬",
-      image: $r('app.media.th3'),
-    }
+  private sorts: TabItem[] = [
+    { title: '计科', icon: '🖥️' },
+    { title: '英语', icon: '🔤' },
+    { title: '数学', icon: '🔢' },
+    { title: '其他', icon: '🎸' }
   ]
 
   aboutToAppear(){
     console.log('testTag: HomeTabContent aboutToAppear')
 
     // todo: 获取课程数据
+    // CourseListData
+    this.CourseList = CourseListData;
+    this.RecomCourses = CourseListData.slice(3, 8);
   }
 
   build() {
-    Column() {
-      Scroll(){
+
+    Scroll(){
         Column(){
           // 标题
           Text('首页')
@@ -67,9 +41,9 @@ export default struct HomeTabContent {
             .textAlign(TextAlign.Center)
             .margin({ top: 3, bottom: 3 })
 
-          // 轮播图
+          // 轮播图 -- 推荐课程
           Swiper(this.swiperController) {
-            ForEach(this.CourseList, (Course: CourseModel) => {
+            ForEach(this.RecomCourses, (Course: CourseModel) => {
               Image(Course.image)
                 .borderRadius(5)
                 .width('100%')  // 宽度与 Swiper 保持一致
@@ -94,34 +68,110 @@ export default struct HomeTabContent {
 
           // todo: 分类栏
           Row(){
-            Column(){
+            ForEach(this.sorts, (tab: TabItem, index: number) => {
+              Column() {
+                Text(tab.icon)
+                  .fontSize(30)
 
 
-            }
+                Text(tab.title)
+                  // .fontSize(12)
+                  // .margin({ top: 4 })
+              }
+              .margin({ left: 26, right: 26 })
+              .onClick(() => {
+                let type = '';
+                switch (tab.title){
+                  case '计科':
+                    type = 'cs';
+                    break;
+                  case '英语':
+                    type = 'eng';
+                    break;
+                  case '数学':
+                    type = 'math';
+                    break;
+                  case '其他':
+                    type = 'other';
+                    break;
+                  default:
+                    type = 'all';
+                    // console.log('testTag: HomeTabContent 其他')
+                }
 
+                router.pushUrl({
+                  url: 'pages/SortCourse',  // 请根据实际页面路径调整
+                  params: {
+                    type: type
+                  }
+                })
+
+              })
+            })
           }
+          .width("100%")
+          .height(80)
+          .margin({ top: 10 })
+          .backgroundColor(Color.Green)
+
+          Text("热门课程")
+            .fontSize(30)
+            .fontWeight(FontWeight.Bold)
+            .textAlign(TextAlign.Start)
+            .width('96%')
+            .margin({top: 10})
 
           // todo: 课程卡
           ForEach(this.CourseList, (Course: CourseModel) => {
-            Column() {
+            Row() {
               Image(Course.image)
                 .borderRadius(5)
-                .width(150)
-                .height(150)
+                .width('50%')
+                .height(110)
                 .objectFit(ImageFit.Cover)
                 .margin({ top: 3, bottom: 3 })
-                .onClick(() => {
-                  router.pushUrl({
-                    url: 'pages/Course',  // 请根据实际页面路径调整
-                  })
-                })
+
+              Column() {
+                Text(Course.name)
+                  .fontSize(18)
+                  .fontWeight(FontWeight.Bold)
+                  .fontColor('#000')
+                  // .textAlign(TextAlign.Center)
+                  .margin({ top: 3, bottom: 3 })
+
+
+                Text("学校: " + Course.school)
+                  .fontSize(16)
+                  .fontColor('#000')
+                  .textAlign(TextAlign.Start)
+                  .margin({ top: 3, bottom: 3 })
+
+                Text("教师: " + Course.teacher)
+                  .fontSize(16)
+                  .fontColor('#000')
+                  // .textAlign(TextAlign.Center)
+                  .margin({ top: 3, bottom: 3 })
+              }
+              .width('50%')
             }
+            .margin({top: 10})
+            .height(110)
+            .width('94%')
+            .backgroundColor(Color.White)
+            .onClick(() => {
+              router.pushUrl({
+                url: 'pages/Course',  // 请根据实际页面路径调整
+                params: {
+                  id: Course.id
+                }
+              })
+            })
           })
         }
       }
-    }
+
     .width('100%')
-    .height('100%')
+    // .height('100%')
     .backgroundColor(Color.Pink)
   }
 }

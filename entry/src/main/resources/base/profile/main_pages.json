@@ -4,6 +4,7 @@
     "pages/Course",
     "pages/Register",
     "pages/Study",
-    "pages/StVideo"
+    "pages/StVideo",
+    "pages/SortCourse"
   ]
 }

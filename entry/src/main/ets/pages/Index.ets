@@ -1,34 +1,37 @@
-import { router } from '@kit.ArkUI'
 import HomeTabContent from '../views/HomeTabContent'
 import AllThingsTabContent from '../views/AllThingsTabContent'
 import StudyTabContent from '../views/StudyTabContent'
 import MyTabContent from '../views/MyTabContent'
+import { TabItem } from '../viewmodel/NewsData'
+import preferences from '@ohos.data.preferences'
 
 // 定义底部导航项类型
-class TabItem {
-  title: string = ''
-  icon: string = ''
-}
+
 
 @Entry
 @Component
 struct MainPage {
-  @State currentTabIndex: number = 0
-  @State refreshKey: number = 0
-  @State isCheckingLogin: boolean = true
+  @State currentTabIndex: number = 0;
+  @State refreshKey: number = 0;
+  @State isCheckingLogin: boolean = true;
+
+
 
   // 底部导航配置
   private tabs: TabItem[] = [
-    { title: '首页', icon: '🏠' },
-    { title: '全部', icon: '📊' },
-    { title: '学习', icon: '🗺️' },
+    { title: '首页', icon: '🌐' },
+    { title: '全部', icon: '📚' },
+    { title: '学习', icon: '🏫' },
     { title: '我的', icon: '👤' }
   ]
 
   // 检查是否登录
   async aboutToAppear() {
+
     // await this.checkLoginStatus()
   }
+
+
 
   // async checkLoginStatus() {
   //   try {

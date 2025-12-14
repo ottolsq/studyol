@@ -10,7 +10,7 @@ export default struct StudyTabContent {
     Column() {
 
 
-      Text('学习')
+      Text('我的课程')
         .fontSize(20)
         .lineHeight(20)
         .fontColor('#000')
