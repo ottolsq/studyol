@@ -25,13 +25,11 @@ struct MainPage {
     { title: '我的', icon: '👤' }
   ]
 
-  // 检查是否登录
   async aboutToAppear() {
-
     // await this.checkLoginStatus()
+    // todo: 检查是否登录，并获取用户数据
+
   }
-
-
 
   // async checkLoginStatus() {
   //   try {
@@ -76,21 +74,20 @@ struct MainPage {
 
   }
 
-
   // 检查登录状态
-  @Builder
-  renderLoading() {
-    Column() {
-      Text('检查登录状态...')
-        .fontSize(16)
-        .fontColor('#CCCCCC')
-        .margin(40)
-    }
-    .width('100%')
-    .height('100%')
-    .justifyContent(FlexAlign.Center)
-    .alignItems(HorizontalAlign.Center)
-  }
+  // @Builder
+  // renderLoading() {
+  //   Column() {
+  //     Text('检查登录状态...')
+  //       .fontSize(16)
+  //       .fontColor('#CCCCCC')
+  //       .margin(40)
+  //   }
+  //   .width('100%')
+  //   .height('100%')
+  //   .justifyContent(FlexAlign.Center)
+  //   .alignItems(HorizontalAlign.Center)
+  // }
 
   // 获取当前Tab的内容
   @Builder
@@ -138,35 +135,4 @@ struct MainPage {
     .padding(8)
     .backgroundColor("#CAD5E2")
   }
-
-
-  // 数据卡片组件
-  // @Builder
-  // DataCard(title: string, value: string, unit: string) {
-  //   Column() {
-  //     Text(title)
-  //       .fontSize(14)
-  //       .fontColor('#CCCCCC')
-  //       .margin({ bottom: 8 })
-  //
-  //     Row() {
-  //       Text(value)
-  //         .fontSize(20)
-  //         .fontWeight(FontWeight.Bold)
-  //         .fontColor('#FFFFFF')
-  //
-  //       Text(unit)
-  //         .fontSize(12)
-  //         .fontColor('#CCCCCC')
-  //         .margin({ left: 4 })
-  //     }
-  //     .alignItems(VerticalAlign.Bottom)
-  //   }
-  //   .width('100%')
-  //   .height('100%')
-  //   .backgroundColor('#1A1A1A')
-  //   .borderRadius(8)
-  //   .justifyContent(FlexAlign.Center)
-  //   .padding(12)
-  // }
 }

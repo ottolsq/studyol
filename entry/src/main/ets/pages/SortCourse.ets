@@ -12,7 +12,6 @@ struct SortCourse {
     const params = router.getParams() as Record<string, string>
     if (params && params['type']) {
       // this.type = params['type']
-
       switch (params['type']){
         case 'cs':
           this.type = '计科';
@@ -30,14 +29,14 @@ struct SortCourse {
           this.type = '全部';
       }
 
+      // todo: 获取课程列表
       // 可根据ID发起数据请求等操作
       this.courseList = CourseListData.filter(item => item.type == params['type'])
 
-      console.log('type: ' + this.type)
+      console.log('testTag: type: ' + this.type)
       console.log('testTag: courseList: ' + this.courseList)
     }
   }
-
 
   build() {
 
@@ -49,10 +48,6 @@ struct SortCourse {
           .type(ButtonType.Normal)
           .fontColor(Color.Black)
           .backgroundColor('#FFF')
-          // .border({                 // 边框设置（可选）
-          //   width: 1,
-          //   color: '#CCC'
-          // })
           .onClick(() => {
             router.back()
           })

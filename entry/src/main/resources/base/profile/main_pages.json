@@ -5,6 +5,7 @@
     "pages/Register",
     "pages/Study",
     "pages/StVideo",
-    "pages/SortCourse"
+    "pages/SortCourse",
+    "pages/EditUser"
   ]
 }

@@ -2,16 +2,14 @@ import { router } from "@kit.ArkUI"
 import { CourseModel } from "../viewmodel/CourseModel"
 import { TabItem } from "../viewmodel/NewsData"
 import {CourseListData} from "../Data/Data"
-import AllThingsTabContent from "./AllThingsTabContent"
-import preferences from "@ohos.data.preferences"
 
 // HomeTabContent.ets
 @Component
 export default struct HomeTabContent {
 
   private swiperController: SwiperController = new SwiperController()  // 声明控制器
-  private CourseList: CourseModel[] = [];
-  private RecomCourses: CourseModel[] = [];
+  private courseList: CourseModel[] = [];
+  private recomCourses: CourseModel[] = [];
 
   private sorts: TabItem[] = [
     { title: '计科', icon: '🖥️' },
@@ -25,8 +23,8 @@ export default struct HomeTabContent {
 
     // todo: 获取课程数据
     // CourseListData
-    this.CourseList = CourseListData;
-    this.RecomCourses = CourseListData.slice(3, 8);
+    this.courseList = CourseListData;
+    this.recomCourses = CourseListData.slice(3, 8);
   }
 
   build() {
@@ -43,7 +41,7 @@ export default struct HomeTabContent {
 
           // 轮播图 -- 推荐课程
           Swiper(this.swiperController) {
-            ForEach(this.RecomCourses, (Course: CourseModel) => {
+            ForEach(this.recomCourses, (Course: CourseModel) => {
               Image(Course.image)
                 .borderRadius(5)
                 .width('100%')  // 宽度与 Swiper 保持一致
@@ -56,7 +54,6 @@ export default struct HomeTabContent {
                       id: Course.id
                     }
                   })
-
                 })
             }, (Course: CourseModel) => JSON.stringify(Course.id))
           }
@@ -66,17 +63,13 @@ export default struct HomeTabContent {
           // .margin({ top: $r('app.float.home_swiper_margin') })
           .autoPlay(true)
 
-          // todo: 分类栏
+          // 分类栏
           Row(){
             ForEach(this.sorts, (tab: TabItem, index: number) => {
               Column() {
                 Text(tab.icon)
                   .fontSize(30)
-
-
                 Text(tab.title)
-                  // .fontSize(12)
-                  // .margin({ top: 4 })
               }
               .margin({ left: 26, right: 26 })
               .onClick(() => {
@@ -121,8 +114,8 @@ export default struct HomeTabContent {
             .width('96%')
             .margin({top: 10})
 
-          // todo: 课程卡
-          ForEach(this.CourseList, (Course: CourseModel) => {
+          // 课程卡
+          ForEach(this.courseList, (Course: CourseModel) => {
             Row() {
               Image(Course.image)
                 .borderRadius(5)

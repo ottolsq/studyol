@@ -1,4 +1,5 @@
 import { CourseModel } from '../viewmodel/CourseModel'
+import { UserModel } from '../viewmodel/UserModel'
 
 export const  CourseListData: Array<CourseModel> = [
   {
@@ -110,3 +111,14 @@ export const  CourseListData: Array<CourseModel> = [
     image: $r('app.media.th3'),
   }
 ]
+
+export const UserInfoData: UserModel = {
+  id: "1",
+  username: "张三",
+  school: "广州软件学院",
+  qualification: "本科",
+  email: '123@qq.com',
+  region: "广州",
+  position: "学生",
+  SelectedCourses: []
+}

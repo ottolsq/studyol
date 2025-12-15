@@ -5,9 +5,12 @@ import { router } from "@kit.ArkUI"
 // AllThingsTabContent.est
 @Component
 export default struct AllThingsTabContent {
+  @State courseList: Array<CourseModel> = []
 
   aboutToAppear(){
     console.log('testTag: AllThingsTabContent aboutToAppear')
+    // todo: 获取课程数据
+    this.courseList = CourseListData;
   }
 
   build() {
@@ -21,7 +24,7 @@ export default struct AllThingsTabContent {
           .margin({ top: 3, bottom: 3 })
 
 
-        ForEach(CourseListData, (Course: CourseModel) => {
+        ForEach(this.courseList, (Course: CourseModel) => {
           Row() {
             Image(Course.image)
               .borderRadius(5)
@@ -67,7 +70,7 @@ export default struct AllThingsTabContent {
           })
         })
 
-        ForEach(CourseListData, (Course: CourseModel) => {
+        ForEach(this.courseList, (Course: CourseModel) => {
           Row() {
             Image(Course.image)
               .borderRadius(5)

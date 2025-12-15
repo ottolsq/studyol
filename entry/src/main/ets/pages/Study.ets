@@ -1,23 +1,31 @@
+import { router } from '@kit.ArkUI';
+import { CourseModel } from '../viewmodel/CourseModel';
+
 @Entry
 @Component
 struct Study {
-  @State message: string = 'Hello World';
+
+
+  @State courseId: string = '';
+  @State course: CourseModel = new CourseModel();
+
+  aboutToAppear(): void {
+    const params = router.getParams() as Record<string, string>
+    if (params && params['id']) {
+      this.courseId = params['id']
+      // 可根据ID发起数据请求等操作
+      // todo: 读取课程信息
+
+      console.log("testTag: studyPage " + this.courseId)
+
+    }
+  }
 
   build() {
-    RelativeContainer() {
-      Text(this.message)
-        .id('StudyHelloWorld')
-        .fontSize($r('app.float.page_text_font_size'))
-        .fontWeight(FontWeight.Bold)
-        .alignRules({
-          center: { anchor: '__container__', align: VerticalAlign.Center },
-          middle: { anchor: '__container__', align: HorizontalAlign.Center }
-        })
-        .onClick(() => {
-          this.message = 'Welcome';
-        })
+    Column() {
+      // todo: 课程信息
+
+
     }
-    .height('100%')
-    .width('100%')
   }
 }

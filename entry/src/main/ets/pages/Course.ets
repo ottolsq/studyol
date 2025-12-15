@@ -1,28 +1,44 @@
 import { router } from '@kit.ArkUI';
 import { CourseModel } from '../viewmodel/CourseModel';
-import {CourseListData} from "../Data/Data"
+import { CourseListData } from "../Data/Data"
 
 @Entry
 @Component
 struct Course {
-  @State message: string = 'Hello World';
   @State courseId: string = '';
+  @State type: string = '其他';
   @State course: CourseModel= new CourseModel();
 
   aboutToAppear(){
     console.log('testTag: Course aboutToAppear')
-    // 获取课程信息
+
     const params = router.getParams() as Record<string, string>
     if (params && params['id']) {
       this.courseId = params['id']
       // 可根据ID发起数据请求等操作
+      // todo: 读取课程信息
       CourseListData.forEach( item => {
         if (item.id == this.courseId) {
           this.course = item
         }
       })
 
-      // this.message = '课程信息：' + this.course.name
+      switch (this.course.type){
+        case 'cs':
+          this.type = '计科';
+          break;
+        case 'eng':
+          this.type = '英语';
+          break;
+        case 'math':
+          this.type = '数学';
+          break;
+        case 'other':
+          this.type = '其他';
+          break;
+        default:
+          this.type = '全部';
+      }
       console.log('testTag: Course aboutToAppear courseId:', this.courseId)
     }
   }
@@ -76,52 +92,42 @@ struct Course {
           .width('100%')
           .fontSize(16)
           .textAlign(TextAlign.Start)
-          .fontWeight(FontWeight.Bold)
           .margin({top: 10, left: 10})
 
         Text("教师: " + this.course.teacher)
           .width('100%')
           .fontSize(16)
           .textAlign(TextAlign.Start)
-          .fontWeight(FontWeight.Bold)
           .margin({top: 10, left: 10})
 
-        Text("类别: " + this.course.type)
+        Text("类别: " + this.type)
           .width('100%')
           .fontSize(16)
           .textAlign(TextAlign.Start)
-          .fontWeight(FontWeight.Bold)
           .margin({top: 10, left: 10})
 
         Text("简介: \n" + this.course.introduction)
           .width('100%')
           .fontSize(16)
           .textAlign(TextAlign.Start)
-          .fontWeight(FontWeight.Bold)
           .margin({top: 10, left: 10})
       }
       .width('100%')
       .backgroundColor(Color.Yellow)
 
       Button("加入学习")
-        // .fontSize(18)
-        // .borderRadius(0)
-        // .type(ButtonType.Normal)
-        // .fontColor(Color.Black)
         .backgroundColor(Color.Orange)
-        // .border({                 // 边框设置（可选）
-        //   width: 1,
-        //   color: '#CCC'
-        // })
         .position({ x: 250, y:680 })
         .zIndex(1)
         .onClick(() => {
           // 进入学习页面
-
-
-
+          router.pushUrl({
+            url: 'pages/Study',  // 请根据实际页面路径调整
+            params: {
+              id: this.courseId
+            }
+          })
         })
-
     }
     .height('100%')
     .width('100%')
