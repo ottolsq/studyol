@@ -28,7 +28,7 @@ export default struct HomeTabContent {
   }
 
   build() {
-
+    Column(){
     Scroll(){
         Column(){
           // 标题
@@ -59,7 +59,7 @@ export default struct HomeTabContent {
           }
           .height(200) // 设置 Swiper 固定高度
           .width('96%') // 宽度填满父容器
-          .backgroundColor(Color.White)
+          // .backgroundColor(Color.White)
           // .margin({ top: $r('app.float.home_swiper_margin') })
           .autoPlay(true)
 
@@ -105,12 +105,13 @@ export default struct HomeTabContent {
           .width("100%")
           .height(80)
           .margin({ top: 10 })
-          .backgroundColor(Color.Green)
+          .backgroundColor('#9AC7EC')
 
           Text("热门课程")
             .fontSize(30)
             .fontWeight(FontWeight.Bold)
             .textAlign(TextAlign.Start)
+            .fontColor('#E86349')
             .width('96%')
             .margin({top: 10})
 
@@ -150,7 +151,8 @@ export default struct HomeTabContent {
             .margin({top: 10})
             .height(110)
             .width('94%')
-            .backgroundColor(Color.White)
+            .borderRadius(10)
+            .backgroundColor($r('app.color.card_background'))
             .onClick(() => {
               router.pushUrl({
                 url: 'pages/Course',  // 请根据实际页面路径调整
@@ -162,9 +164,9 @@ export default struct HomeTabContent {
           })
         }
       }
-
+    }
     .width('100%')
-    // .height('100%')
-    .backgroundColor(Color.Pink)
+    .height('100%')
+    .backgroundColor($r('app.color.my_background'))
   }
 }

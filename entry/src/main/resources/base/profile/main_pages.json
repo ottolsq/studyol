@@ -2,10 +2,10 @@
   "src": [
     "pages/Index",
     "pages/Course",
-    "pages/Register",
     "pages/Study",
     "pages/StVideo",
     "pages/SortCourse",
-    "pages/EditUser"
+    "pages/EditUser",
+    "pages/Login"
   ]
 }

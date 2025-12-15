@@ -1,22 +1,33 @@
 import { CourseModel } from "../viewmodel/CourseModel";
 import { CourseListData } from "../Data/Data"
 import { router } from "@kit.ArkUI";
+import { common } from "@kit.AbilityKit";
+import preferences from '@ohos.data.preferences'
 
 // StudyTabContent.est
 @Component
 export default struct StudyTabContent {
 
   @State myCourseList: Array<CourseModel> = [];
+  @State userId: string = '';
 
-  aboutToAppear(){
+  private context = getContext(this) as common.UIAbilityContext;
+  private preference = preferences.getPreferences(this.context, { name: 'userInfo' })
+
+  async aboutToAppear(){
     console.log('testTag: StudyTabContent aboutToAppear')
 
     // todo: 获取用户id, 根据用户id获取课程数据
+    // 获取用户id
+    this.userId = (await this.preference).getSync('userId', '') as string
+    // console.log('testTag: StudyTabContent userId: ' + this.userId);
 
-    this.myCourseList = CourseListData.splice(0, 3);
+    // 获取课程数据
+    this.myCourseList = CourseListData.slice(0, 3);
   }
 
   build() {
+    Column(){
     Scroll(){
       Column(){
         Text('我的课程')
@@ -67,7 +78,8 @@ export default struct StudyTabContent {
           .margin({bottom: 10})
           .height(110)
           .width('94%')
-          .backgroundColor(Color.White)
+          .borderRadius(10)
+          .backgroundColor($r('app.color.card_background'))
           .onClick(() => {
             router.pushUrl({
               url: 'pages/Course',  // 请根据实际页面路径调整
@@ -77,11 +89,12 @@ export default struct StudyTabContent {
             })
           })
         })
-
-
       }
     }
+    }
     .width('100%')
+    .height('100%')
+    .backgroundColor($r('app.color.my_background'))
     // .height('100%')
   }
 }

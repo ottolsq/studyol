@@ -22,7 +22,6 @@ struct Course {
           this.course = item
         }
       })
-
       switch (this.course.type){
         case 'cs':
           this.type = '计科';
@@ -39,7 +38,6 @@ struct Course {
         default:
           this.type = '全部';
       }
-      console.log('testTag: Course aboutToAppear courseId:', this.courseId)
     }
   }
 
@@ -69,7 +67,7 @@ struct Course {
           .textAlign(TextAlign.Center)
       }
       .width("100%")
-      .backgroundColor(Color.Grey)
+      .backgroundColor(Color.White)
       .position({ x: 0, y: 0 })
       .zIndex(1)
 
@@ -86,34 +84,38 @@ struct Course {
           .fontSize(18)
           .textAlign(TextAlign.Start)
           .fontWeight(FontWeight.Bold)
-          .margin({top: 10, left: 10})
+          .margin({top: 10})
 
         Text("学校: " + this.course.school)
           .width('100%')
           .fontSize(16)
           .textAlign(TextAlign.Start)
-          .margin({top: 10, left: 10})
+          .margin({top: 10})
 
         Text("教师: " + this.course.teacher)
           .width('100%')
           .fontSize(16)
           .textAlign(TextAlign.Start)
-          .margin({top: 10, left: 10})
+          .margin({top: 10})
 
         Text("类别: " + this.type)
           .width('100%')
           .fontSize(16)
           .textAlign(TextAlign.Start)
-          .margin({top: 10, left: 10})
+          .margin({top: 10})
 
         Text("简介: \n" + this.course.introduction)
           .width('100%')
           .fontSize(16)
           .textAlign(TextAlign.Start)
-          .margin({top: 10, left: 10})
+          .margin({top: 10 })
       }
-      .width('100%')
-      .backgroundColor(Color.Yellow)
+      .width('94%')
+      .height('auto')
+      .borderRadius(10)
+      .margin({top: 10})
+      .padding(10)
+      .backgroundColor($r('app.color.card_background'))
 
       Button("加入学习")
         .backgroundColor(Color.Orange)
@@ -131,5 +133,6 @@ struct Course {
     }
     .height('100%')
     .width('100%')
+    .backgroundColor($r('app.color.my_background'))
   }
 }

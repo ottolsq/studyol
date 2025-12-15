@@ -1,6 +1,20 @@
 {
   "color": [
     {
+      "name": "my_font_color",
+      "value": "#566573"
+    },
+    {
+      "name": "card_background",
+      "value": "#e4e0ec"
+
+    },
+    {
+      "name": "my_background",
+      "value": "#f0f2f3"
+
+    },
+    {
       "name": "start_window_background",
       "value": "#FFFFFF"
     },

@@ -115,6 +115,7 @@ export const  CourseListData: Array<CourseModel> = [
 export const UserInfoData: UserModel = {
   id: "1",
   username: "张三",
+  password: "123456",
   school: "广州软件学院",
   qualification: "本科",
   email: '123@qq.com',

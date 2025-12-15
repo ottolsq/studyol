@@ -59,7 +59,7 @@ struct SortCourse {
           .textAlign(TextAlign.Center)
       }
       .width("100%")
-      .backgroundColor(Color.Grey)
+      .backgroundColor(Color.White)
       .position({ x: 0, y: 0 })
       .zIndex(1)
 
@@ -99,7 +99,8 @@ struct SortCourse {
             .margin({ top: 10 })
             .height(110)
             .width('94%')
-            .backgroundColor(Color.White)
+            .borderRadius(5)
+            .backgroundColor($r('app.color.card_background'))
             .onClick(() => {
               router.pushUrl({
                 url: 'pages/Course', // 请根据实际页面路径调整
@@ -109,7 +110,6 @@ struct SortCourse {
               })
             })
           })
-
           ForEach(this.courseList, (Course: CourseModel) => {
             Row() {
               Image(Course.image)
@@ -144,7 +144,8 @@ struct SortCourse {
             .margin({ top: 10 })
             .height(110)
             .width('94%')
-            .backgroundColor(Color.White)
+            .borderRadius(5)
+            .backgroundColor($r('app.color.card_background'))
             .onClick(() => {
               router.pushUrl({
                 url: 'pages/Course', // 请根据实际页面路径调整
@@ -154,7 +155,6 @@ struct SortCourse {
               })
             })
           })
-
           ForEach(this.courseList, (Course: CourseModel) => {
             Row() {
               Image(Course.image)
@@ -189,7 +189,8 @@ struct SortCourse {
             .margin({ top: 10 })
             .height(110)
             .width('94%')
-            .backgroundColor(Color.White)
+            .borderRadius(5)
+            .backgroundColor($r('app.color.card_background'))
             .onClick(() => {
               router.pushUrl({
                 url: 'pages/Course', // 请根据实际页面路径调整
@@ -204,5 +205,8 @@ struct SortCourse {
       .width('100%')
       .margin({ top: 40 })
     }
+    .width('100%')
+    .height('100%')
+    .backgroundColor($r('app.color.my_background'))
   }
 }

@@ -1,4 +1,4 @@
-import { router } from '@kit.ArkUI';
+import { promptAction, router } from '@kit.ArkUI';
 import { UserInfoData } from "../Data/Data"
 
 @Entry
@@ -23,11 +23,11 @@ struct EditUser {
       // todo: 请求用户信息
 
       this.username = UserInfoData.username
-      this.school = UserInfoData.school
-      this.qualification = UserInfoData.qualification
-      this.email = UserInfoData.email
-      this.region = UserInfoData.region
-      this.userPosition = UserInfoData.position
+      this.school = UserInfoData.school ?? ''
+      this.qualification = UserInfoData.qualification ?? ''
+      this.email = UserInfoData.email ?? ''
+      this.region = UserInfoData.region ?? ''
+      this.userPosition = UserInfoData.position ?? ''
     }
   }
 
@@ -55,7 +55,7 @@ struct EditUser {
           .textAlign(TextAlign.Center)
       }
       .width("100%")
-      .backgroundColor(Color.Grey)
+      .backgroundColor(Color.White)
       .position({ x: 0, y: 0 })
       .zIndex(1)
 
@@ -173,15 +173,26 @@ struct EditUser {
 
 
       Button("确定修改")
-        .margin({top: 275})
+        .margin({top: 265})
         .onClick((event: ClickEvent) => {
-        // todo: 修改用户信息
+
+          if (this.username.trim() !== '') {
+            // todo: 修改用户信息
 
 
+            promptAction.showToast({ message: '修改成功!' });
+            router.replaceUrl({
+              url: 'pages/Index'
+            })
+          }else{
+
+            promptAction.showToast({ message: '姓名不可为空!' });
+          }
       })
 
     }
     .width("100%")
     .height("100%")
+    .backgroundColor($r('app.color.my_background'))
   }
 }
