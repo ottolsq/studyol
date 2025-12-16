@@ -3,7 +3,23 @@ import { router } from '@kit.ArkUI';
 @Entry
 @Component
 struct StVideo {
-  @State message: string = 'Hello World';
+
+  @State sectionId: string = '';
+  @State type: number = -1;
+
+  aboutToAppear(): void {
+    const params = router.getParams() as Record<string, string>
+    if (params && params['id']) {
+      this.sectionId = params['id']
+      this.type = parseInt(params['type'])
+
+
+
+
+    }
+  }
+
+
 
   build() {
     Column(){
@@ -28,6 +44,13 @@ struct StVideo {
       .backgroundColor(Color.White)
       .position({ x: 0, y: 0 })
       .zIndex(1)
+
+      Text(this.sectionId)
+        .fontSize(18)
+        .margin({top: 50})
+      Text(this.type.toString())
+        .fontSize(18)
+        .margin({top: 50})
 
     }
     .width('100%')
