@@ -179,7 +179,6 @@ struct EditUser {
           if (this.username.trim() !== '') {
             // todo: 修改用户信息
 
-
             promptAction.showToast({ message: '修改成功!' });
             router.replaceUrl({
               url: 'pages/Index'

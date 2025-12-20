@@ -1,4 +1,4 @@
-          import { CourseListData } from '../Data/Data';
+import { CourseListData } from '../Data/Data';
 import { CourseModel } from '../viewmodel/CourseModel';
 import { router } from '@kit.ArkUI';
 

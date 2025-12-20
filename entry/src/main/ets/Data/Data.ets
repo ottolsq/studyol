@@ -193,7 +193,7 @@ export const SectionListData: SectionModel[] = [
     title: '小节标题1',
     sectionOrder: 0,
     type: 1,     // 1 视频 2 文档
-    content: 'DevEcoStudioProjects'  // type =? 1: 视频地址 2: 文档内容
+    content: 'http://vjs.zencdn.net/v/oceans.mp4'  // type =? 1: 视频地址 2: 文档内容
   },
   {
     id: '2',
@@ -202,7 +202,7 @@ export const SectionListData: SectionModel[] = [
     title: '小节标题11',
     sectionOrder: 1,
     type: 1,     // 1 视频 2 文档
-    content: 'DevEcoStudioProjects'  // type =? 1: 视频地址 2: 文档内容
+    content: 'https://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/mp4/xgplayer-demo-360p.mp4'  // type =? 1: 视频地址 2: 文档内容
   },
   {
     id: '3',
@@ -211,7 +211,7 @@ export const SectionListData: SectionModel[] = [
     title: '小节标题111',
     sectionOrder: 2,
     type: 1,     // 1 视频 2 文档
-    content: ''  // type =? 1: 视频地址 2: 文档内容
+    content: 'http://www.w3school.com.cn/example/html5/mov_bbb.mp4'  // type =? 1: 视频地址 2: 文档内容
   },
   {
     id: '4',
@@ -220,7 +220,7 @@ export const SectionListData: SectionModel[] = [
     title: '小节标题2',
     sectionOrder: 0,
     type: 1,     // 1 视频 2 文档
-    content: ''  // type =? 1: 视频地址 2: 文档内容
+    content: 'https://www.w3schools.com/html/movie.mp4'  // type =? 1: 视频地址 2: 文档内容
   },
   {
     id: '5',
@@ -229,7 +229,7 @@ export const SectionListData: SectionModel[] = [
     title: '小节标题22',
     sectionOrder: 1,
     type: 1,     // 1 视频 2 文档
-    content: ''  // type =? 1: 视频地址 2: 文档内容
+    content: 'https://media.w3.org/2010/05/sintel/trailer.mp4'  // type =? 1: 视频地址 2: 文档内容
   },
   {
     id: '6',
@@ -238,7 +238,7 @@ export const SectionListData: SectionModel[] = [
     title: '小节标题3',
     sectionOrder: 0,
     type: 1,     // 1 视频 2 文档
-    content: ''  // type =? 1: 视频地址 2: 文档内容
+    content: 'https://stream7.iqilu.com/10339/upload_transcode/202002/09/20200209105011F0zPoYzHry.mp4'  // type =? 1: 视频地址 2: 文档内容
   },
   {
     id: '7',
@@ -247,7 +247,13 @@ export const SectionListData: SectionModel[] = [
     title: '小节标题4',
     sectionOrder: 0,
     type: 2,     // 1 视频 2 文档
-    content: ''  // type =? 1: 视频地址 2: 文档内容
+    content: '在接触他人观点的时候，我们最容易发生轻信的情况是:对方观点，符合我们的逻辑和价值观。而且他们还很自信、很有趣、不仅让我们产生共鸣，也让我们有机会产生“英雄所见略同”之感--确认了我们自己观点同样高明。\n' +
+      '这种情况下，我们几乎不会去质疑或反思。但这往往成为发现真相的盲点。\n' +
+      '人们为了捍卫自己的观点和信念，坚持错误、死不悔改者，比比皆是，\n' +
+      '可是，愿意颠覆既往观念的人，却一直是极少数这不仅需要智慧--了解自己有思维盲点，知道”犯错是发现真相过程中的常态。\n' +
+      '更需要自信--不怕承认“我错了”的人，不会把"犯错等同于智力上的“愚蠢”(俗话说智者千虑，必有一失)，不会因此否定自我价值。\n' +
+      '可是，如果自己错了却拒绝承认，就等于断绝了一个智力上自我提升的机会。\n' +
+      '与此类似的另一种容易发生轻信的情况是:对方的观点，让我们感觉满足和振奋。这往往是因为:对方的观点，增强了我们的自我价值感、或者我们所在族群的自豪感。'  // type =? 1: 视频地址 2: 文档内容
   },
   {
     id: '8',
@@ -256,7 +262,7 @@ export const SectionListData: SectionModel[] = [
     title: '小节标题1',
     sectionOrder: 0,
     type: 1,     // 1 视频 2 文档
-    content: ''  // type =? 1: 视频地址 2: 文档内容
+    content: 'https://stream7.iqilu.com/10339/upload_transcode/202002/09/20200209104902N3v5Vpxuvb.mp4'  // type =? 1: 视频地址 2: 文档内容
   },
   {
     id: '9',
@@ -265,7 +271,7 @@ export const SectionListData: SectionModel[] = [
     title: '小节标题11',
     sectionOrder: 1,
     type: 1,     // 1 视频 2 文档
-    content: ''  // type =? 1: 视频地址 2: 文档内容
+    content: 'http://vjs.zencdn.net/v/oceans.mp4'  // type =? 1: 视频地址 2: 文档内容
   },
   {
     id: '10',
@@ -274,7 +280,7 @@ export const SectionListData: SectionModel[] = [
     title: '小节标题111',
     sectionOrder: 2,
     type: 1,     // 1 视频 2 文档
-    content: ''  // type =? 1: 视频地址 2: 文档内容
+    content: 'https://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/mp4/xgplayer-demo-360p.mp4'  // type =? 1: 视频地址 2: 文档内容
   },
   {
     id: '11',
@@ -283,7 +289,7 @@ export const SectionListData: SectionModel[] = [
     title: '小节标题2',
     sectionOrder: 0,
     type: 1,     // 1 视频 2 文档
-    content: ''  // type =? 1: 视频地址 2: 文档内容
+    content: 'http://www.w3school.com.cn/example/html5/mov_bbb.mp4'  // type =? 1: 视频地址 2: 文档内容
   },
   {
     id: '12',
@@ -292,7 +298,7 @@ export const SectionListData: SectionModel[] = [
     title: '小节标题22',
     sectionOrder: 1,
     type: 1,     // 1 视频 2 文档
-    content: ''  // type =? 1: 视频地址 2: 文档内容
+    content: 'https://www.w3schools.com/html/movie.mp4'  // type =? 1: 视频地址 2: 文档内容
   },
   {
     id: '13',
@@ -301,7 +307,7 @@ export const SectionListData: SectionModel[] = [
     title: '小节标题3',
     sectionOrder: 0,
     type: 1,     // 1 视频 2 文档
-    content: ''  // type =? 1: 视频地址 2: 文档内容
+    content: 'https://media.w3.org/2010/05/sintel/trailer.mp4'  // type =? 1: 视频地址 2: 文档内容
   },
   {
     id: '14',
@@ -310,6 +316,12 @@ export const SectionListData: SectionModel[] = [
     title: '222小节标题4',
     sectionOrder: 0,
     type: 2,     // 1 视频 2 文档
-    content: ''  // type =? 1: 视频地址 2: 文档内容
+    content: '在接触他人观点的时候，我们最容易发生轻信的情况是:对方观点，符合我们的逻辑和价值观。而且他们还很自信、很有趣、不仅让我们产生共鸣，也让我们有机会产生“英雄所见略同”之感--确认了我们自己观点同样高明。\\n\' +\n' +
+      '      \'这种情况下，我们几乎不会去质疑或反思。但这往往成为发现真相的盲点。\\n\' +\n' +
+      '      \'人们为了捍卫自己的观点和信念，坚持错误、死不悔改者，比比皆是，\\n\' +\n' +
+      '      \'可是，愿意颠覆既往观念的人，却一直是极少数这不仅需要智慧--了解自己有思维盲点，知道”犯错是发现真相过程中的常态。\\n\' +\n' +
+      '      \'更需要自信--不怕承认“我错了”的人，不会把"犯错等同于智力上的“愚蠢”(俗话说智者千虑，必有一失)，不会因此否定自我价值。\\n\' +\n' +
+      '      \'可是，如果自己错了却拒绝承认，就等于断绝了一个智力上自我提升的机会。\\n\' +\n' +
+      '      \'与此类似的另一种容易发生轻信的情况是:对方的观点，让我们感觉满足和振奋。这往往是因为:对方的观点，增强了我们的自我价值感、或者我们所在族群的自豪感。'  // type =? 1: 视频地址 2: 文档内容
   },
 ]

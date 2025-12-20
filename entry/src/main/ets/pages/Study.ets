@@ -77,7 +77,6 @@ struct Study {
       .position({ x: 0, y: 0 })
       .zIndex(1)
 
-      // todo: 课程信息
       Scroll() {
         Column() {
           // 标题
@@ -124,17 +123,13 @@ struct Study {
                           }
                         })
                       })
-
-
                   },  (sectionItem: SectionModel) => sectionItem.id)
                 }
                 .width('100%')
               }
               .backgroundColor($r('app.color.card_background'))
               .borderRadius(10)
-
             }, (chapterItem: ChapterModel)  => chapterItem.id)  // key generator
-
             /*ForEach(this.chapterList, (chapterItem: ChapterModel, chapterIndex: number) => {
               ListItem() {
                 Column() {
@@ -185,8 +180,6 @@ struct Study {
           .width('100%')
           .height('auto')
           .padding(10)
-
-
 
           // 附加展开样式的
           /*List({ space: 10 }) {
@@ -249,16 +242,6 @@ struct Study {
           .width('100%')
           .height('100%')
           .padding(12)*/
-
-
-          // Button('▶️').onClick(() => {
-          //   router.pushUrl({
-          //     url: 'pages/StVideo', // 请根据实际页面路径调整
-          //     params: {
-          //       id: '999'
-          //     }
-          //   })
-          // })
         }
         .height("auto")
         // .backgroundColor(Color.Yellow)
@@ -267,11 +250,9 @@ struct Study {
       .height("auto")
       .margin({top: 40})
       // .backgroundColor(Color.Pink)
-
     }
     .width("100%")
     .height("100%")
     .backgroundColor($r('app.color.my_background'))
-
   }
 }
