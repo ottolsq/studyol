@@ -1,4 +1,4 @@
-import { promptAction, router } from '@kit.ArkUI';
+import { router } from '@kit.ArkUI';
 import { SectionListData } from '../Data/Data';
 import { SectionModel } from '../viewmodel/SectionModel';
 

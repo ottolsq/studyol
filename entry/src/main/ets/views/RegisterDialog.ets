@@ -29,7 +29,7 @@ struct RegisterDialog {
         .margin({ top: 20, bottom: 30 })
 
       // 用户名
-      TextInput({ placeholder: '请输入姓名' })
+      TextInput({ placeholder: '请输入用户名' })
         .onChange((value: string) => { this.username = value })
         .margin({ bottom: 15 })
 
@@ -78,7 +78,6 @@ struct RegisterDialog {
             if (this.handleRegister()) {
               // 构建要传回的数据对象
               let userData = {
-                id: "0",
                 username: this.username,
                 password: this.password,
                 school: this.school,
@@ -86,7 +85,6 @@ struct RegisterDialog {
                 email: this.email,
                 region: this.region,
                 position: this._position,
-                SelectedCourses: []
               } as UserModel;
 
               console.log('testTag: 用户注册数据为：', userData);

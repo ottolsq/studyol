@@ -32,7 +32,7 @@ struct MainPage {
     // await this.checkLoginStatus()
     // todo: 检查是否登录，并获取数据
 
-    (await this.preference).putSync('userId', '111');
+    // (await this.preference).putSync('userId', '111');
 
     // 获取用户ID -- 检查是否登录
     this.userId = (await this.preference).getSync('userId', '') as string;

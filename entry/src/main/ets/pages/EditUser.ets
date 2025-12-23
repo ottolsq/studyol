@@ -1,5 +1,7 @@
 import { promptAction, router } from '@kit.ArkUI';
-import { UserInfoData } from "../Data/Data"
+import { http } from '@kit.NetworkKit';
+import Constants, { ContentType } from '../common/constants/Constants'
+import { UserModel } from '../viewmodel/UserModel';
 
 @Entry
 @Component
@@ -7,11 +9,11 @@ struct EditUser {
   @State userId: string = '';
 
   @State username: string = '';
-  @State school: string = '';
-  @State qualification: string = '';
-  @State email: string = '';
-  @State region: string = '';
-  @State userPosition: string = '';
+  @State school: string | undefined = '';
+  @State qualification: string | undefined = '';
+  @State email: string | undefined = '';
+  @State region: string | undefined = '';
+  @State userPosition: string | undefined = '';
 
 
   aboutToAppear(): void {
@@ -20,14 +22,44 @@ struct EditUser {
     if (params && params['id']) {
       this.userId = params['id']
       // 可根据ID发起数据请求等操作
-      // todo: 请求用户信息
+      // 请求用户信息
+      try {
+        let httpRequest = http.createHttp();
+        httpRequest.request(`http://172.18.96.30:8080/getUserById/${this.userId}`, {
+          method:  http.RequestMethod.GET,
+          readTimeout: Constants.HTTP_READ_TIMEOUT,
+          header: {
+            'Content-Type': ContentType.JSON
+          },
+          connectTimeout: Constants.HTTP_READ_TIMEOUT
+        }, async (err, result) =>{
+          if (result.responseCode === 200) {
+            console.log('testTag: 获取成功')
+            console.log('testTag: responseResult:', typeof result.result);
 
-      this.username = UserInfoData.username
-      this.school = UserInfoData.school ?? ''
-      this.qualification = UserInfoData.qualification ?? ''
-      this.email = UserInfoData.email ?? ''
-      this.region = UserInfoData.region ?? ''
-      this.userPosition = UserInfoData.position ?? ''
+            let userData: UserModel;
+
+            if (typeof result.result === 'string') {
+              userData = JSON.parse(result.result);
+
+              this.username = userData.username;
+              this.school = userData.school;
+              this.qualification = userData.qualification;
+              this.email = userData.email;
+              this.region = userData.region;
+              this.userPosition = userData.position;
+            }else{
+              promptAction.showToast({ message: '转换失败' })
+            }
+          } else {
+            console.log('testTag: 获取失败')
+            promptAction.showToast({ message: '获取失败' })
+          }
+        });
+      } catch (err) {
+        console.error('Request error:', err);
+        promptAction.showToast({ message: '网络请求异常' });
+      }
     }
   }
 
@@ -60,7 +92,7 @@ struct EditUser {
       .zIndex(1)
 
       Row(){
-        Text("姓名:")
+        Text("用户:")
           .fontSize(16)
           // .margin({ top: 20 })
           .width('15%')

@@ -3,6 +3,19 @@ import { RegisterDialog } from '../views/RegisterDialog'
 import { promptAction, router } from '@kit.ArkUI'
 import preferences from '@ohos.data.preferences'
 import { common } from '@kit.AbilityKit'
+import Constants, { ContentType } from '../common/constants/Constants'
+import { http } from '@kit.NetworkKit'
+import util from '@ohos.util'
+
+interface UserRegisterData {
+  username: string;
+  password: string;
+  school?: string;
+  qualification?: string;
+  email?: string;
+  region?: string;
+  position?: string;
+}
 
 @Entry
 @Component
@@ -24,15 +37,38 @@ struct Login {
   private async handleLogin(username: string, password: string) {
     // 在这里处理登录逻辑，例如发送网络请求[3](@ref)
     console.log(`testTag: 用户名: ${username}, 密码: ${password}`);
-    // todo: 登录请求
 
-    (await this.preference).putSync('userId', '111');
+    // 登录请求
+    try {
+      let httpRequest = http.createHttp();
+      httpRequest.request(`http://172.18.96.30:8080/login?username=${username}&password=${password}`, {
+        method:  http.RequestMethod.POST,
+        readTimeout: Constants.HTTP_READ_TIMEOUT,
+        header: {
+          'Content-Type': ContentType.JSON
+        },
+        connectTimeout: Constants.HTTP_READ_TIMEOUT
+      }, async (err, result) =>{
+        if (result.responseCode === 200 && result.result != "fail") {
+          console.log('testTag: 登录成功')
+          console.log('testTag: responseResult:', result.result);
 
-    // 登录成功
-    promptAction.showToast({ message: `欢迎回来，${username}!` })
-    router.replaceUrl({
-      url: 'pages/Index'
-    })
+          (await (this.preference)).putSync('userId', result.result.toString());
+
+          promptAction.showToast({ message: `登录成功，欢迎回来，${username}!` })
+
+          router.replaceUrl({
+            url: 'pages/Index'
+          })
+        } else {
+          console.log('testTag: 登录失败')
+          promptAction.showToast({ message: '登录失败' })
+        }
+      });
+    } catch (err) {
+      console.error('Request error:', err);
+      promptAction.showToast({ message: '网络请求异常' });
+    }
   }
 
 
@@ -46,15 +82,51 @@ struct Login {
   })
 
   // 处理注册逻辑的回调函数
-  private handleRegister(userData: object) {
+  private handleRegister(userData: UserRegisterData) {
     // 这里可以发送注册请求到服务器
-    console.log('testTag: 注册信息:', JSON.stringify(userData));
+    console.log('testTag: 注册信息:', userData.username);
     // 示例：显示注册成功提示
 
-    // todo: 注册请求
+    // 生成用户id
+    let randomUUID: string = util.generateRandomUUID(true);
+    console.info('testTag 生成的UUID为: ' + randomUUID);
 
-    // 注册成功
-    promptAction.showToast({ message: '注册成功！' });
+    // 注册请求
+    try {
+      let httpRequest = http.createHttp();
+      httpRequest.request(`http://172.18.96.30:8080/register`, {
+        method:  http.RequestMethod.POST,
+        readTimeout: Constants.HTTP_READ_TIMEOUT,
+        header: {
+          'Content-Type': ContentType.JSON
+        },
+        connectTimeout: Constants.HTTP_READ_TIMEOUT,
+        extraData: {
+          "id": randomUUID,
+          "username": userData.username,
+          "password": userData.password,
+          "school": userData.school,
+          "qualification": userData.qualification,
+          "email": userData.email,
+          "region": userData.region,
+          "position": userData.position
+
+        }
+      }, async (err, result) =>{
+        if (result.responseCode === 200) {
+          console.log('testTag: 注册成功')
+          promptAction.showToast({ message: '注册成功！' });
+          console.log('testTag: responseResult:', result.result);
+
+        } else {
+          console.log('testTag: 注册失败')
+          promptAction.showToast({ message: '注册失败' })
+        }
+      });
+    } catch (err) {
+      console.error('Request error:', err);
+      promptAction.showToast({ message: '网络请求异常' });
+    }
   }
 
 

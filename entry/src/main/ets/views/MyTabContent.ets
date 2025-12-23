@@ -1,8 +1,9 @@
 import { UserModel } from "../viewmodel/UserModel"
-import { UserInfoData } from "../Data/Data"
-import { router } from "@kit.ArkUI"
+import Constants, { ContentType } from '../common/constants/Constants'
+import { promptAction, router } from "@kit.ArkUI"
 import { common } from "@kit.AbilityKit";
 import preferences from '@ohos.data.preferences'
+import { http } from "@kit.NetworkKit";
 
 // MyTabContent.est
 @Component
@@ -15,13 +16,45 @@ export default struct MyTabContent {
   private preference = preferences.getPreferences(this.context, { name: 'userInfo' })
 
   async aboutToAppear(){
-    // todo: 获取用户信息
+    // 获取用户信息
+
     // 获取用户id
     this.userId = (await this.preference).getSync('userId', '') as string
+
     console.log('testTag: MyTabContent userId: ' + this.userId);
 
-    // 获取用户信息
-    this.userInfo = UserInfoData
+    try {
+      let httpRequest = http.createHttp();
+      httpRequest.request(`http://172.18.96.30:8080/getUserById/${this.userId}`, {
+        method:  http.RequestMethod.GET,
+        readTimeout: Constants.HTTP_READ_TIMEOUT,
+        header: {
+          'Content-Type': ContentType.JSON
+        },
+        connectTimeout: Constants.HTTP_READ_TIMEOUT
+      }, async (err, result) =>{
+        if (result.responseCode === 200) {
+          console.log('testTag: 获取成功')
+          console.log('testTag: responseResult:', typeof result.result);
+
+          let userData: UserModel;
+
+          if (typeof result.result === 'string') {
+            userData = JSON.parse(result.result);
+
+            this.userInfo = userData
+          }else{
+            promptAction.showToast({ message: '转换失败' })
+          }
+        } else {
+          console.log('testTag: 获取失败')
+          promptAction.showToast({ message: '获取失败' })
+        }
+      });
+    } catch (err) {
+      console.error('Request error:', err);
+      promptAction.showToast({ message: '网络请求异常' });
+    }
   }
 
   build() {
@@ -41,7 +74,7 @@ export default struct MyTabContent {
           router.pushUrl({
             url: 'pages/EditUser',
             params: {
-              id: this.userInfo.id
+              id: this.userId
             }
           })
 
@@ -69,7 +102,7 @@ export default struct MyTabContent {
           .margin({top: 15, bottom: 15})
 
 
-        Text("姓名: " + this.userInfo.username)
+        Text("用户: " + this.userInfo.username)
           .width('94%')
           .fontSize(18)
           .textAlign(TextAlign.Start)
