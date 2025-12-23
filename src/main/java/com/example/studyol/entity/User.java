@@ -10,7 +10,6 @@ public class User {
     private String email;
     private String region;
     private String position;
-    private String[] SelectedCourses;
 
     public User() {
     }
@@ -24,7 +23,6 @@ public class User {
         this.email = email;
         this.region = region;
         this.position = position;
-        SelectedCourses = selectedCourses;
     }
 
     public String getId() {
@@ -89,13 +87,5 @@ public class User {
 
     public void setPosition(String position) {
         this.position = position;
-    }
-
-    public String[] getSelectedCourses() {
-        return SelectedCourses;
-    }
-
-    public void setSelectedCourses(String[] selectedCourses) {
-        SelectedCourses = selectedCourses;
     }
 }
