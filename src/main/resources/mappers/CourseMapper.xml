@@ -5,10 +5,11 @@
 <!-- 上面是固定写法 -->
 
 <!-- 指定命名空间 -->
-<mapper namespace="com.example.studyol.mapper.UserMapper">
+<mapper namespace="com.example.studyol.mapper.CourseMapper">
 
     <!-- id 为接口的方法名，resultType 为单条数据的封装类型 -->
-    <select id="findAllUsers" resultType="com.example.studyol.entity.User">
-        select * from user
+    <!-- id 为接口的方法名，resultType 为单条数据的封装类型 -->
+    <select id="findAllCourses" resultType="com.example.studyol.entity.Course">
+        select * from course
     </select>
 </mapper>

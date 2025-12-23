@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 上面是固定写法 -->
+
+<!-- 指定命名空间 -->
+<mapper namespace="com.example.studyol.mapper.SectionMapper">
+
+<!--    &lt;!&ndash; id 为接口的方法名，resultType 为单条数据的封装类型 &ndash;&gt;-->
+<!--    <select id="findAll" resultType="com.example.studyol.entity.User">-->
+<!--        select * from user-->
+<!--    </select>-->
+</mapper>
