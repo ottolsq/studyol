@@ -1,32 +1,32 @@
 package com.example.studyol.entity;
 
 public class Course {
-    private String id;
+    private int id;
     private String name;
     private String teacher;
     private String school;
     private String type;
     private String introduction;
-    private String image;
+    private String image_url;
 
     public Course() {
     }
 
-    public Course(String id, String name, String teacher, String school, String type, String introduction, String image) {
+    public Course(int id, String name, String teacher, String school, String type, String introduction, String image) {
         this.id = id;
         this.name = name;
         this.teacher = teacher;
         this.school = school;
         this.type = type;
         this.introduction = introduction;
-        this.image = image;
+        this.image_url = image;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -70,11 +70,11 @@ public class Course {
         this.introduction = introduction;
     }
 
-    public String getImage() {
-        return image;
+    public String getImage_url() {
+        return image_url;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 }

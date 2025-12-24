@@ -1,35 +1,35 @@
 package com.example.studyol.entity;
 
 public class Chapter {
-    private String id;
-    private String courseId;
+    private int id;
+    private int course_id;
     private String title;
-    private int chapterOrder;
+    private int chapter_order;
 
     public Chapter() {
     }
 
-    public Chapter(String id, String courseId, String title, int chapterOrder) {
+    public Chapter(int id, int course_id, String title, int chapter_order) {
         this.id = id;
-        this.courseId = courseId;
+        this.course_id = course_id;
         this.title = title;
-        this.chapterOrder = chapterOrder;
+        this.chapter_order = chapter_order;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getCourseId() {
-        return courseId;
+    public int getCourse_id() {
+        return course_id;
     }
 
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
+    public void setCourse_id(int course_id) {
+        this.course_id = course_id;
     }
 
     public String getTitle() {
@@ -40,11 +40,11 @@ public class Chapter {
         this.title = title;
     }
 
-    public int getChapterOrder() {
-        return chapterOrder;
+    public int getChapter_order() {
+        return chapter_order;
     }
 
-    public void setChapterOrder(int chapterOrder) {
-        this.chapterOrder = chapterOrder;
+    public void setChapter_order(int chapter_order) {
+        this.chapter_order = chapter_order;
     }
 }

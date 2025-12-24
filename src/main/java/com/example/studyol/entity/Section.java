@@ -1,49 +1,49 @@
 package com.example.studyol.entity;
 
 public class Section {
-    private String id;
-    private String chapterId;
-    private String sectionNumber;
+    private int id;
+    private int chapter_id;
+    private String section_number;
     private String title;
-    private int sectionOrder;
-    private String type;
+    private int section_order;
+    private int type;
     private String content;
 
     public Section() {
     }
 
-    public Section(String id, String chapterId, String sectionNumber, String title, int sectionOrder, String type, String content) {
+    public Section(int id, int chapter_id, String section_number, String title, int section_order, int type, String content) {
         this.id = id;
-        this.chapterId = chapterId;
-        this.sectionNumber = sectionNumber;
+        this.chapter_id = chapter_id;
+        this.section_number = section_number;
         this.title = title;
-        this.sectionOrder = sectionOrder;
+        this.section_order = section_order;
         this.type = type;
         this.content = content;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getChapterId() {
-        return chapterId;
+    public int getChapter_id() {
+        return chapter_id;
     }
 
-    public void setChapterId(String chapterId) {
-        this.chapterId = chapterId;
+    public void setChapter_id(int chapter_id) {
+        this.chapter_id = chapter_id;
     }
 
-    public String getSectionNumber() {
-        return sectionNumber;
+    public String getSection_number() {
+        return section_number;
     }
 
-    public void setSectionNumber(String sectionNumber) {
-        this.sectionNumber = sectionNumber;
+    public void setSection_number(String section_number) {
+        this.section_number = section_number;
     }
 
     public String getTitle() {
@@ -54,19 +54,19 @@ public class Section {
         this.title = title;
     }
 
-    public int getSectionOrder() {
-        return sectionOrder;
+    public int getSection_order() {
+        return section_order;
     }
 
-    public void setSectionOrder(int sectionOrder) {
-        this.sectionOrder = sectionOrder;
+    public void setSection_order(int section_order) {
+        this.section_order = section_order;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 

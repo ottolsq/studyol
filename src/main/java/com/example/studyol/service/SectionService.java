@@ -9,11 +9,19 @@ import java.util.List;
 
 @Service
 public class SectionService {
-
-
     @Autowired
     private SectionDao sectionDao;
+
     public List<Section> findAllSections() {
         return sectionDao.findAllSections();
     }
+
+    public List<Section> findSectionsByChapterId(int chapter_id) {
+        return sectionDao.findSectionsByChapterId(chapter_id);
+    }
+
+    public Section findSectionById(int section_id) {
+        return sectionDao.findSectionById(section_id);
+    }
+
 }
