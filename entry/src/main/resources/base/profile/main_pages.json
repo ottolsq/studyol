@@ -6,6 +6,7 @@
     "pages/StVideo",
     "pages/SortCourse",
     "pages/EditUser",
-    "pages/Login"
+    "pages/Login",
+    "pages/Test"
   ]
 }

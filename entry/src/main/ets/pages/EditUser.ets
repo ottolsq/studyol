@@ -25,7 +25,7 @@ struct EditUser {
       // 请求用户信息
       try {
         let httpRequest = http.createHttp();
-        httpRequest.request(`http://172.18.96.30:8080/getUserById/${this.userId}`, {
+        httpRequest.request(`${Constants.SERVER}/getUserById/${this.userId}`, {
           method:  http.RequestMethod.GET,
           readTimeout: Constants.HTTP_READ_TIMEOUT,
           header: {
@@ -209,14 +209,46 @@ struct EditUser {
         .onClick((event: ClickEvent) => {
 
           if (this.username.trim() !== '') {
-            // todo: 修改用户信息
+            // 修改用户信息
 
+            try {
+              let httpRequest = http.createHttp();
+              httpRequest.request(`${Constants.SERVER}/updateUser`, {
+                method:  http.RequestMethod.PUT,
+                readTimeout: Constants.HTTP_READ_TIMEOUT,
+                header: {
+                  'Content-Type': ContentType.JSON
+                },
+                connectTimeout: Constants.HTTP_READ_TIMEOUT,
+                extraData: {
+                  "id": this.userId,
+                  "username": this.username,
+                  "school": this.school,
+                  "qualification": this.qualification,
+                  "email": this.email,
+                  "region": this.region,
+                  "position": this.userPosition
+
+                }
+              }, async (err, result) =>{
+                if (result.responseCode === 200) {
+                  console.log('testTag: 修改成功')
+                  console.log('testTag: responseResult:', typeof result.result);
+
+                  router.replaceUrl({
+                    url: 'pages/Index'
+                  })
+                } else {
+                  console.log('testTag: 修改失败')
+                  promptAction.showToast({ message: '修改失败' })
+                }
+              });
+            } catch (err) {
+              console.error('Request error:', err);
+              promptAction.showToast({ message: '网络请求异常' });
+            }
             promptAction.showToast({ message: '修改成功!' });
-            router.replaceUrl({
-              url: 'pages/Index'
-            })
           }else{
-
             promptAction.showToast({ message: '姓名不可为空!' });
           }
       })

@@ -1,8 +1,9 @@
 import { CourseModel } from "../viewmodel/CourseModel";
-import { CourseListData } from "../Data/Data"
-import { router } from "@kit.ArkUI";
+import { promptAction, router } from "@kit.ArkUI";
 import { common } from "@kit.AbilityKit";
 import preferences from '@ohos.data.preferences'
+import Constants, { ContentType } from '../common/constants/Constants'
+import { http } from "@kit.NetworkKit";
 
 // StudyTabContent.est
 @Component
@@ -17,13 +18,40 @@ export default struct StudyTabContent {
   async aboutToAppear(){
     console.log('testTag: StudyTabContent aboutToAppear')
 
-    // todo: 获取用户id, 根据用户id获取课程数据
+    // 获取用户id, 根据用户id获取课程数据
     // 获取用户id
     this.userId = (await this.preference).getSync('userId', '') as string
-    // console.log('testTag: StudyTabContent userId: ' + this.userId);
+    try {
+      let httpRequest = http.createHttp();
+      httpRequest.request(`${Constants.SERVER}/getCourseByUserId/${this.userId}`, {
+        method:  http.RequestMethod.GET,
+        readTimeout: Constants.HTTP_READ_TIMEOUT,
+        header: {
+          'Content-Type': ContentType.JSON
+        },
+        connectTimeout: Constants.HTTP_READ_TIMEOUT
+      }, async (err, result) =>{
+        if (result.responseCode === 200) {
+          console.log('testTag: 获取成功')
+          console.log('testTag: responseResult:', typeof result.result);
 
-    // 获取课程数据
-    this.myCourseList = CourseListData.slice(0, 3);
+          let courseData: CourseModel[];
+
+          if (typeof result.result === 'string') {
+            courseData = JSON.parse(result.result);
+            this.myCourseList = courseData
+          }else{
+            promptAction.showToast({ message: '转换失败' })
+          }
+        } else {
+          console.log('testTag: 获取失败')
+          promptAction.showToast({ message: '获取失败' })
+        }
+      });
+    } catch (err) {
+      console.error('Request error:', err);
+      promptAction.showToast({ message: '网络请求异常' });
+    }
   }
 
   build() {
@@ -39,7 +67,7 @@ export default struct StudyTabContent {
 
         ForEach(this.myCourseList, (Course: CourseModel) => {
           Row() {
-            Image(Course.image)
+            Image(Course.image_url)
               .borderRadius(5)
               .width('50%')
               .height(110)

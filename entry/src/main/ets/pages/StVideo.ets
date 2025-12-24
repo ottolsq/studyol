@@ -1,6 +1,7 @@
-import { router } from '@kit.ArkUI';
-import { SectionListData } from '../Data/Data';
+import { promptAction, router } from '@kit.ArkUI';
+import Constants, { ContentType } from '../common/constants/Constants'
 import { SectionModel } from '../viewmodel/SectionModel';
+import { http } from '@kit.NetworkKit';
 
 @Entry
 @Component
@@ -18,16 +19,45 @@ struct StVideo {
     if (params && params['id']) {
       this.sectionId = params['id']
 
-      // todo: 获取小节数据
-      const sss = SectionListData.find(item => item.id == this.sectionId)
-      if(sss){
-        this.section = sss
-        if (sss.type == 1) {
-          this.videoUrl = sss.content
-        }
-      }
-      this.type = parseInt(params['type'])
+      // 获取小节数据
+      try {
+        let httpRequest = http.createHttp();
+        httpRequest.request(`${Constants.SERVER}/getSectionById/${this.sectionId}`, {
+          method:  http.RequestMethod.GET,
+          readTimeout: Constants.HTTP_READ_TIMEOUT,
+          header: {
+            'Content-Type': ContentType.JSON
+          },
+          connectTimeout: Constants.HTTP_READ_TIMEOUT
+        }, async (err, result) =>{
+          if (result.responseCode === 200) {
+            console.log('testTag: 获取成功')
+            console.log('testTag: responseResult:', typeof result.result);
+            let sectionData: SectionModel;
+            if (typeof result.result === 'string') {
+              sectionData = JSON.parse(result.result);
 
+              this.section = sectionData
+              if (sectionData.type == 1) {
+                this.videoUrl = sectionData.content
+              }
+
+              this.type = parseInt(params['type'])
+              // this.sectionList[index] = sectionData
+              // console.log("testTag: section " + this.sectionList)
+
+            }else{
+              promptAction.showToast({ message: '转换失败' })
+            }
+          } else {
+            console.log('testTag: 获取失败')
+            promptAction.showToast({ message: '获取失败' })
+          }
+        });
+      } catch (err) {
+        console.error('Request error:', err);
+        promptAction.showToast({ message: '网络请求异常' });
+      }
     }
   }
 

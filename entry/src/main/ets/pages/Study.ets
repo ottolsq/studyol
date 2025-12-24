@@ -1,8 +1,9 @@
-import { router } from '@kit.ArkUI';
-import { ChapterListData , SectionListData, CourseListData } from '../Data/Data';
+import { promptAction, router } from '@kit.ArkUI';
 import { ChapterModel } from '../viewmodel/ChapterModel';
 import { CourseModel } from '../viewmodel/CourseModel';
 import { SectionModel } from '../viewmodel/SectionModel';
+import { http } from '@kit.NetworkKit';
+import Constants, { ContentType } from '../common/constants/Constants'
 
 @Entry
 @Component
@@ -20,25 +21,108 @@ struct Study {
       this.courseId = params['id']
 
       // 可根据ID发起数据请求等操作
-      // todo: 读取课程信息
-      CourseListData.forEach( item => {
-        if (item.id == this.courseId) {
-          this.course = item
+      // 读取课程信息
+      try {
+        let httpRequest = http.createHttp();
+        httpRequest.request(`${Constants.SERVER}/getCourseById/${this.courseId}`, {
+          method:  http.RequestMethod.GET,
+          readTimeout: Constants.HTTP_READ_TIMEOUT,
+          header: {
+            'Content-Type': ContentType.JSON
+          },
+          connectTimeout: Constants.HTTP_READ_TIMEOUT
+        }, async (err, result) =>{
+          if (result.responseCode === 200) {
+            console.log('testTag: 获取成功')
+            console.log('testTag: responseResult:', typeof result.result);
+            let courseData: CourseModel;
+            if (typeof result.result === 'string') {
+              courseData = JSON.parse(result.result);
 
-          // todo: 读取章节/小节信息
-          this.chapterList = ChapterListData.filter(i => i.courseId == item.id)
-          this.chapterList.forEach((Chapter, index) => {
-            this.sectionList[index] = SectionListData.filter(i => i.chapterId == Chapter.id)
-            // console.log("testTag: Chapter " + item.title)
-          })
+              this.course = courseData
+              // this.SectionList = SectionListData.filter(i => i.chapterId == item.id)
+              console.log("testTag: Chapter " + this.chapterList)
 
-          // this.SectionList = SectionListData.filter(i => i.chapterId == item.id)
-          console.log("testTag: Chapter " + this.chapterList)
-        }
-      })
 
-      console.log("testTag: studyPage " + this.courseId)
+            }else{
+              promptAction.showToast({ message: '转换失败' })
+            }
+          } else {
+            console.log('testTag: 获取失败')
+            promptAction.showToast({ message: '获取失败' })
+          }
+        });
+      } catch (err) {
+        console.error('Request error:', err);
+        promptAction.showToast({ message: '网络请求异常' });
+      }
 
+      // 读取章节数据
+      try {
+        let httpRequest = http.createHttp();
+        httpRequest.request(`${Constants.SERVER}/getChaptersByCourseId/${this.courseId}`, {
+          method:  http.RequestMethod.GET,
+          readTimeout: Constants.HTTP_READ_TIMEOUT,
+          header: {
+            'Content-Type': ContentType.JSON
+          },
+          connectTimeout: Constants.HTTP_READ_TIMEOUT
+        }, async (err, result) =>{
+          if (result.responseCode === 200) {
+            console.log('testTag: 获取成功')
+            console.log('testTag: responseResult:', typeof result.result);
+            let chapterData: ChapterModel[];
+            if (typeof result.result === 'string') {
+              chapterData = JSON.parse(result.result);
+              this.chapterList = chapterData
+
+              console.log("testTag: Chapter " + this.chapterList)
+              this.chapterList.forEach((chapter, index) => {
+
+                // 获取小节数据
+                try {
+                  let httpRequest = http.createHttp();
+                  httpRequest.request(`${Constants.SERVER}/getSectionsByChapterId/${chapter.id}`, {
+                    method:  http.RequestMethod.GET,
+                    readTimeout: Constants.HTTP_READ_TIMEOUT,
+                    header: {
+                      'Content-Type': ContentType.JSON
+                    },
+                    connectTimeout: Constants.HTTP_READ_TIMEOUT
+                  }, async (err, result) =>{
+                    if (result.responseCode === 200) {
+                      console.log('testTag: 获取成功')
+                      console.log('testTag: responseResult:', typeof result.result);
+                      let sectionData: SectionModel[];
+                      if (typeof result.result === 'string') {
+                        sectionData = JSON.parse(result.result);
+                        this.sectionList[index] = sectionData
+                        console.log("testTag: section " + this.sectionList)
+                      }else{
+                        promptAction.showToast({ message: '转换失败' })
+                      }
+                    } else {
+                      console.log('testTag: 获取失败')
+                      promptAction.showToast({ message: '获取失败' })
+                    }
+                  });
+                } catch (err) {
+                  console.error('Request error:', err);
+                  promptAction.showToast({ message: '网络请求异常' });
+                }
+              })
+            }else{
+              promptAction.showToast({ message: '转换失败' })
+            }
+          } else {
+            console.log('testTag: 获取失败')
+            promptAction.showToast({ message: '获取失败' })
+          }
+        });
+      } catch (err) {
+        console.error('Request error:', err);
+        promptAction.showToast({ message: '网络请求异常' });
+      }
     }
   }
 
@@ -105,7 +189,7 @@ struct Study {
                   // 显示该章节下的所有小节
                   ForEach(this.sectionList[chapterIndex], (sectionItem: SectionModel) => {
 
-                    Text(sectionItem.sectionNumber+' '+sectionItem.title)
+                    Text(sectionItem.section_number+' '+sectionItem.title)
                       .fontSize(14)
                       .padding({ left: 24, top: 6, bottom: 6 })
                       .width('100%')

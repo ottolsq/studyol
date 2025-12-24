@@ -5,5 +5,5 @@ export class CourseModel {
   school: string = '';        // 所属学校
   type: string = '';          // 课程类型
   introduction: string = '';  // 简介
-  image: Resource = $r('app.media.th'); // 课程封面
+  image_url: string = ''; // 课程封面
 }

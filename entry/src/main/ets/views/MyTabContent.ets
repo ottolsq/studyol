@@ -25,7 +25,7 @@ export default struct MyTabContent {
 
     try {
       let httpRequest = http.createHttp();
-      httpRequest.request(`http://172.18.96.30:8080/getUserById/${this.userId}`, {
+      httpRequest.request(`${Constants.SERVER}/getUserById/${this.userId}`, {
         method:  http.RequestMethod.GET,
         readTimeout: Constants.HTTP_READ_TIMEOUT,
         header: {

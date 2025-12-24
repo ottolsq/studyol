@@ -30,7 +30,7 @@ struct MainPage {
   async aboutToAppear() {
     console.log('testTag: MainPage aboutToAppear');
     // await this.checkLoginStatus()
-    // todo: 检查是否登录，并获取数据
+    // 检查是否登录，并获取数据
 
     // (await this.preference).putSync('userId', '111');
 

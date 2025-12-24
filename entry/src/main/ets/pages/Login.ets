@@ -41,7 +41,7 @@ struct Login {
     // 登录请求
     try {
       let httpRequest = http.createHttp();
-      httpRequest.request(`http://172.18.96.30:8080/login?username=${username}&password=${password}`, {
+      httpRequest.request(`${Constants.SERVER}/login?username=${username}&password=${password}`, {
         method:  http.RequestMethod.POST,
         readTimeout: Constants.HTTP_READ_TIMEOUT,
         header: {
@@ -94,7 +94,7 @@ struct Login {
     // 注册请求
     try {
       let httpRequest = http.createHttp();
-      httpRequest.request(`http://172.18.96.30:8080/register`, {
+      httpRequest.request(`${Constants.SERVER}/register`, {
         method:  http.RequestMethod.POST,
         readTimeout: Constants.HTTP_READ_TIMEOUT,
         header: {

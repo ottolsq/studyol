@@ -1,46 +1,114 @@
-import { router } from '@kit.ArkUI';
+import { promptAction, router } from '@kit.ArkUI';
 import { CourseModel } from '../viewmodel/CourseModel';
-import { CourseListData } from "../Data/Data"
+import { http } from '@kit.NetworkKit';
+import Constants, { ContentType } from '../common/constants/Constants'
+import { common } from '@kit.AbilityKit';
+import { preferences } from '@kit.ArkData';
 
 @Entry
 @Component
 struct Course {
+  @State userId: string = '';
   @State courseId: string = '';
   @State type: string = '其他';
   @State course: CourseModel= new CourseModel();
+  @State isSelected: boolean = false;
 
-  aboutToAppear(){
+  private context = getContext(this) as common.UIAbilityContext;
+  private preference = preferences.getPreferences(this.context, { name: 'userInfo' })
+
+  async aboutToAppear(){
     console.log('testTag: Course aboutToAppear')
+
+    // 获取用户id
+    this.userId = (await this.preference).getSync('userId', '') as string
 
     const params = router.getParams() as Record<string, string>
     if (params && params['id']) {
       this.courseId = params['id']
       // 可根据ID发起数据请求等操作
-      // todo: 读取课程信息
-      CourseListData.forEach( item => {
-        if (item.id == this.courseId) {
-          this.course = item
-        }
-      })
-      switch (this.course.type){
-        case 'cs':
-          this.type = '计科';
-          break;
-        case 'eng':
-          this.type = '英语';
-          break;
-        case 'math':
-          this.type = '数学';
-          break;
-        case 'other':
-          this.type = '其他';
-          break;
-        default:
-          this.type = '全部';
+      // 读取课程信息
+      try {
+        let httpRequest = http.createHttp();
+        httpRequest.request(`${Constants.SERVER}/getCourseById/${this.courseId}`, {
+          method:  http.RequestMethod.GET,
+          readTimeout: Constants.HTTP_READ_TIMEOUT,
+          header: {
+            'Content-Type': ContentType.JSON
+          },
+          connectTimeout: Constants.HTTP_READ_TIMEOUT
+        }, async (err, result) =>{
+          if (result.responseCode === 200) {
+            console.log('testTag: 获取成功')
+            console.log('testTag: responseResult:', typeof result.result);
+
+            let courseData: CourseModel;
+
+            if (typeof result.result === 'string') {
+              courseData = JSON.parse(result.result);
+
+              this.course = courseData
+
+              switch (this.course.type){
+                case 'cs':
+                  this.type = '计科';
+                  break;
+                case 'eng':
+                  this.type = '英语';
+                  break;
+                case 'math':
+                  this.type = '数学';
+                  break;
+                case 'other':
+                  this.type = '其他';
+                  break;
+                default:
+                  this.type = '全部';
+              }
+            }else{
+              promptAction.showToast({ message: '转换失败' })
+            }
+          } else {
+            console.log('testTag: 获取失败')
+            promptAction.showToast({ message: '获取失败' })
+          }
+        });
+      } catch (err) {
+        console.error('Request error:', err);
+        promptAction.showToast({ message: '网络请求异常' });
+      }
+
+      try {
+        let httpRequest = http.createHttp();
+        httpRequest.request(`${Constants.SERVER}/isSelectedCourse?user_id=${this.userId}&course_id=${this.courseId}`, {
+          method:  http.RequestMethod.POST,
+          readTimeout: Constants.HTTP_READ_TIMEOUT,
+          header: {
+            'Content-Type': ContentType.JSON
+          },
+          connectTimeout: Constants.HTTP_READ_TIMEOUT
+        }, async (err, result) =>{
+          if (result.responseCode === 200) {
+            console.log('testTag: 获取 是否已选该课程 成功')
+            console.log('testTag: responseResult:', result.result);
+            if(result.result > 0){
+              this.isSelected = true
+            }else {
+              this.isSelected = false
+            }
+            console.log('testTag: isSelected:', this.isSelected)
+          } else {
+            console.log('testTag: 获取失败')
+            console.log('testTag: responseResult:', err)
+            promptAction.showToast({ message: '获取失败' })
+          }
+        });
+      } catch (err) {
+        console.error('Request error:', err);
+        promptAction.showToast({ message: '网络请求异常' });
       }
     }
   }
-
 
   build() {
     Column() {
@@ -71,7 +139,7 @@ struct Course {
       .position({ x: 0, y: 0 })
       .zIndex(1)
 
-      Image(this.course.image)
+      Image(this.course.image_url)
         .margin({top: 40})
         // .borderRadius(5)
         // .width('100%')  // 宽度与 Swiper 保持一致
@@ -122,13 +190,50 @@ struct Course {
         .position({ x: 250, y:680 })
         .zIndex(1)
         .onClick(() => {
-          // 进入学习页面
-          router.pushUrl({
-            url: 'pages/Study',  // 请根据实际页面路径调整
-            params: {
-              id: this.courseId
+          // 学生选课
+          if (this.isSelected) {
+
+            console.log('testTag: 进入学习页面', this.isSelected)
+            // 进入学习页面
+            router.pushUrl({
+              url: 'pages/Study',  // 请根据实际页面路径调整
+              params: {
+                id: this.courseId
+              }
+            })
+          }else{
+            // 添加选课
+            try {
+              let httpRequest = http.createHttp();
+              httpRequest.request(`${Constants.SERVER}/addUserCourse?user_id=${this.userId}&course_id=${this.courseId}`, {
+                method:  http.RequestMethod.POST,
+                readTimeout: Constants.HTTP_READ_TIMEOUT,
+                header: {
+                  'Content-Type': ContentType.JSON
+                },
+                connectTimeout: Constants.HTTP_READ_TIMEOUT
+              }, async (err, result) =>{
+                if (result.responseCode === 200) {
+                  console.log('testTag: 添加成功')
+                  console.log('testTag: responseResult:', result.result);
+
+                  router.pushUrl({
+                    url: 'pages/Study',  // 请根据实际页面路径调整
+                    params: {
+                      id: this.courseId
+                    }
+                  })
+                } else {
+                  console.log('testTag: 添加失败')
+                  console.log('testTag: responseResult:', err)
+                  promptAction.showToast({ message: '添加失败' })
+                }
+              });
+            } catch (err) {
+              console.error('Request error:', err);
+              promptAction.showToast({ message: '网络请求异常' });
             }
-          })
+          }
         })
     }
     .height('100%')

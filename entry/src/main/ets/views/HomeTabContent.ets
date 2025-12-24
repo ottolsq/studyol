@@ -1,15 +1,16 @@
-import { router } from "@kit.ArkUI"
+import { promptAction, router } from "@kit.ArkUI"
 import { CourseModel } from "../viewmodel/CourseModel"
 import { TabItem } from "../viewmodel/NewsData"
-import {CourseListData} from "../Data/Data"
+import { http } from "@kit.NetworkKit"
+import Constants, { ContentType } from '../common/constants/Constants'
 
 // HomeTabContent.ets
 @Component
 export default struct HomeTabContent {
 
   private swiperController: SwiperController = new SwiperController()  // 声明控制器
-  private courseList: CourseModel[] = [];
-  private recomCourses: CourseModel[] = [];
+  @State private courseList: CourseModel[] = [];
+  @State private recomCourses: CourseModel[] = [];
 
   private sorts: TabItem[] = [
     { title: '计科', icon: '🖥️' },
@@ -18,13 +19,44 @@ export default struct HomeTabContent {
     { title: '其他', icon: '🎸' }
   ]
 
-  aboutToAppear(){
+  async aboutToAppear(){
     console.log('testTag: HomeTabContent aboutToAppear')
 
-    // todo: 获取课程数据
-    // CourseListData
-    this.courseList = CourseListData;
-    this.recomCourses = CourseListData.slice(3, 8);
+    // 获取课程数据
+    try {
+      let httpRequest = http.createHttp();
+      httpRequest.request(`${Constants.SERVER}/allCourses`, {
+        method:  http.RequestMethod.GET,
+        readTimeout: Constants.HTTP_READ_TIMEOUT,
+        header: {
+          'Content-Type': ContentType.JSON
+        },
+        connectTimeout: Constants.HTTP_READ_TIMEOUT
+      }, async (err, result) =>{
+        if (result.responseCode === 200) {
+          console.log('testTag: 获取成功')
+          console.log('testTag: responseResult:', result.result);
+
+          let courseData: CourseModel[];
+
+          if (typeof result.result === 'string') {
+            courseData = JSON.parse(result.result);
+
+            this.courseList = courseData;
+            this.recomCourses = courseData.slice(3, 8);
+          }else{
+            promptAction.showToast({ message: '转换失败' })
+          }
+
+        } else {
+          console.log('testTag: 获取失败')
+          promptAction.showToast({ message: '获取失败' })
+        }
+      });
+    } catch (err) {
+      console.error('Request error:', err);
+      promptAction.showToast({ message: '网络请求异常' });
+    }
   }
 
   build() {
@@ -41,8 +73,8 @@ export default struct HomeTabContent {
 
           // 轮播图 -- 推荐课程
           Swiper(this.swiperController) {
-            ForEach(this.recomCourses, (Course: CourseModel) => {
-              Image(Course.image)
+            ForEach(this.recomCourses, (course: CourseModel) => {
+              Image(course.image_url)
                 .borderRadius(5)
                 .width('100%')  // 宽度与 Swiper 保持一致
                 .height('100%') // 高度与 Swiper 保持一致
@@ -51,11 +83,11 @@ export default struct HomeTabContent {
                   router.pushUrl({
                     url: 'pages/Course',  // 请根据实际页面路径调整
                     params: {
-                      id: Course.id
+                      id: course.id
                     }
                   })
                 })
-            }, (Course: CourseModel) => JSON.stringify(Course.id))
+            }, (course: CourseModel) => JSON.stringify(course.id))
           }
           .height(200) // 设置 Swiper 固定高度
           .width('96%') // 宽度填满父容器
@@ -116,9 +148,9 @@ export default struct HomeTabContent {
             .margin({top: 10})
 
           // 课程卡
-          ForEach(this.courseList, (Course: CourseModel) => {
+          ForEach(this.courseList, (course: CourseModel) => {
             Row() {
-              Image(Course.image)
+              Image(course.image_url)
                 .borderRadius(5)
                 .width('50%')
                 .height(110)
@@ -126,7 +158,7 @@ export default struct HomeTabContent {
                 .margin({ top: 3, bottom: 3 })
 
               Column() {
-                Text(Course.name)
+                Text(course.name)
                   .fontSize(18)
                   .fontWeight(FontWeight.Bold)
                   .fontColor('#000')
@@ -134,13 +166,13 @@ export default struct HomeTabContent {
                   .margin({ top: 3, bottom: 3 })
 
 
-                Text("学校: " + Course.school)
+                Text("学校: " + course.school)
                   .fontSize(16)
                   .fontColor('#000')
                   .textAlign(TextAlign.Start)
                   .margin({ top: 3, bottom: 3 })
 
-                Text("教师: " + Course.teacher)
+                Text("教师: " + course.teacher)
                   .fontSize(16)
                   .fontColor('#000')
                   // .textAlign(TextAlign.Center)
@@ -157,7 +189,7 @@ export default struct HomeTabContent {
               router.pushUrl({
                 url: 'pages/Course',  // 请根据实际页面路径调整
                 params: {
-                  id: Course.id
+                  id: course.id
                 }
               })
             })

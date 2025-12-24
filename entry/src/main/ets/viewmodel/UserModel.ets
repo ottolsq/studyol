@@ -7,5 +7,5 @@ export class UserModel {
   email?: string = '';          // 邮箱
   region?: string = '';         // 地区
   position?: string = '';       // 职位
-  SelectedCourses: string[] = []; // 已选课程
+  // SelectedCourses: string[] = []; // 已选课程
 }
